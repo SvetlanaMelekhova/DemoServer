@@ -14,3 +14,12 @@ fun Application.module(){
         }
     }
 }
+
+@Suppress("unused")
+fun Application.module2(){
+    routing {
+        get("/book") {
+            call.respondText ("Hello, World2!")
+        }
+    }
+}
