@@ -1,3 +1,7 @@
+val ktor_version: String by project
+val kotlin_version: String by project
+val logback_version: String by project
+
 plugins {
     application
     kotlin("jvm") version "1.6.20"
@@ -19,9 +23,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     testCompile("junit", "junit", "4.12")
 
-    implementation("io.ktor:ktor-server-core:1.6.4")
-    implementation("io.ktor:ktor-server-netty:1.6.4")
-    implementation("ch.qos.logback:logback-classic:1.2.6")
+    implementation("io.ktor:ktor-server-core:$ktor_version")
+    implementation("io.ktor:ktor-server-netty:$ktor_version")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
 
-    implementation("io.ktor:ktor-serialization:1.6.4")
+    implementation("io.ktor:ktor-serialization:$ktor_version")
+    implementation("io.ktor:ktor-html-builder:$ktor_version")
 }

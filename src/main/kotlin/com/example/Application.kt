@@ -1,73 +1,62 @@
 package com.example
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.serialization.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import kotlinx.serialization.Serializable
-import java.lang.Exception
+import io.ktor.application.Application
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.ContentNegotiation
+import io.ktor.html.respondHtml
+import io.ktor.http.content.resources
+import io.ktor.http.content.static
+import io.ktor.response.respondText
+import io.ktor.routing.Routing
+import io.ktor.routing.get
+import io.ktor.routing.routing
+import io.ktor.serialization.json
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import kotlinx.html.body
+import kotlinx.html.h3
+import kotlinx.html.head
+import kotlinx.html.img
+import kotlinx.html.p
+import kotlinx.html.title
 
 fun main() {
-    embeddedServer(Netty, port = 8080){
-        install(ContentNegotiation){
+    embeddedServer(Netty, port = 8080) {
+        install(ContentNegotiation) {
             json()
         }
         module()
     }.start(wait = true)
 }
 
-fun Application.module(){
+fun Application.module() {
 
-    install(Routing){
+    routing {
+        static {
+            resources("static")
+        }
         get("/") {
-            call.respondText ("Hello, World!")
+            call.respondText("Hello, World!")
         }
-        get("/users/{username}"){
-            val userName = call.parameters["username"]
-            val header = call.request.headers["Connection"]
-            if (userName =="Admin"){
-                call.response.header(name = "CustomHeader", "Admin")
-                call.respond(message = "Hello Admin", status = HttpStatusCode.OK)
-            }
-            call.respondText("Greetings, $userName with header:$header")
-        }
-
-        get("/user"){
+        get("/welcome") {
             val name = call.request.queryParameters["name"]
-            val age = call.request.queryParameters["age"]
-            call.respondText("Hi, my name is $name, I'm $age years old")
-        }
-        get("/person"){
-
-            try {
-                val person = Person(name = "John", age = 26)
-                call.respond(message = person, status = HttpStatusCode.OK)
-            }catch (e: Exception){
-                call.respond(message = "${e.message}", status = HttpStatusCode.BadRequest)
+            call.respondHtml {
+                head {
+                    title { +"Custom Title" }
+                }
+                body {
+                    if (name.isNullOrEmpty()) {
+                        h3 { +"Welcome!" }
+                    } else {
+                        h3 { +"Welcome, $name!" }
+                    }
+                    p { +"Current directory is: ${System.getProperty("user.dir")}" }
+                    img(src = "logo.jpg") {  }
+                }
             }
-        }
-        get("/redirect"){
-            call.respondRedirect(url = "/moved", permanent = false)
-        }
-        get("/moved"){
-            call.respondText("You have been successfully redirected")
         }
     }
 }
 
-@Serializable
-data class Person(
-    val name: String,
-    val age: Int
-)
-
-/*route(path = "/", method = HttpMethod.Get){
-    handle {
-        call.respondText ("Hello, World!")
-    }
-}*/
 
