@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
 import java.lang.Exception
 
 fun main() {
-    embeddedServer(Netty, port = 8080){
+    embeddedServer(Netty, port = 8080, watchPaths = listOf("classes, resources")){
         install(ContentNegotiation){
             json()
         }
