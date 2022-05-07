@@ -12,14 +12,9 @@ fun Application.module(){
         get("/") {
             call.respondText ("Hello, World!")
         }
-    }
-}
-
-@Suppress("unused")
-fun Application.module2(){
-    routing {
-        get("/book") {
-            call.respondText ("Hello, World2!")
+        get("/welcome"){
+            call.respondText("Welcome!")
         }
     }
 }
+
