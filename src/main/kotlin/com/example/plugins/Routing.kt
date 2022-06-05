@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.routes.getAllHeroes
+import com.example.routes.getAllHeroesAlternative
 import com.example.routes.getSearchHero
 import com.example.routes.root
 import io.ktor.application.Application
@@ -13,7 +14,8 @@ import javax.naming.AuthenticationException
 fun Application.configureRouting() {
     routing {
         root()
-        getAllHeroes()
+        //getAllHeroes()
+        getAllHeroesAlternative()
         getSearchHero()
 
         static("/images"){
