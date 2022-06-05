@@ -59,15 +59,18 @@ class ApplicationTest {
                             expected = HttpStatusCode.OK,
                             actual = response.status()
                         )
+
+                        val actual = Json.decodeFromString<ApiResponse>(response.content.toString())
+
                         val expected = ApiResponse(
                             success = true,
                             message = "ok",
                             prevPage = calculatePage(page)[PREVIOUS_PAGE_KEY],
                             nextPage = calculatePage(page)[NEXT_PAGE_KEY],
-                            heroes = heroes[page - 1]
+                            heroes = heroes[page - 1],
+                            lastUpdated = actual.lastUpdated
                         )
-                        val actual = Json.decodeFromString<ApiResponse>(response.content.toString())
-
+                        
                         println("PREV PAGE: ${calculatePage(page)[PREVIOUS_PAGE_KEY]}")
                         println("NEXT PAGE: ${calculatePage(page)[NEXT_PAGE_KEY]}")
                         println("HEROES: ${heroes[page - 1]}")

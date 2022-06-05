@@ -405,7 +405,7 @@ class HeroRepositoryImpl: HeroRepository {
             prevPage = calculatePage(page = page)[PREVIOUS_PAGE_KEY],
             nextPage = calculatePage(page = page)[NEXT_PAGE_KEY],
             heroes = heroes[page]!!,
-            //lastUpdated = System.currentTimeMillis()
+            lastUpdated = System.currentTimeMillis()
         )
     }
 
